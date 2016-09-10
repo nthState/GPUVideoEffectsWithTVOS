@@ -1,0 +1,24 @@
+# Mac OS X
+*.DS_Store
+
+# Python
+*.pyc
+
+# Ignore these folders:
+videos
+certificates
+Build
+Pods
+
+*.screenshots
+
+# Xcode
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.xcuserstate
+project.xcworkspace/
+xcuserdata/
+GPUVideoEffectsWithTVOS.xcworkspace/xcshareddata/
+.xcodeproj/ !*.xcodeproj/project.pbxproj
