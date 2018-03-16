@@ -51,7 +51,7 @@ class VideoViewController: UIViewController, AVPlayerItemOutputPullDelegate
     /// Video player layer (render)
     var playerLayer:AVPlayerLayer!
     /// Change this value to the demo you wish to run
-    let demo = 2
+    let demo = 5
     /// Change this video to any video url you wish.
     let videoStr = "http://content.jwplatform.com/manifests/vM7nH0Kl.m3u8"
 
@@ -64,15 +64,15 @@ class VideoViewController: UIViewController, AVPlayerItemOutputPullDelegate
         switch demo
         {
         case 1: // Demo 1
-            metalEngine = MetalEngine_MPS()
+            metalEngine = MetalEngine_MPS() // great
         case 2: // Demo 2
-            metalEngine = MetalEngine_Gaussian()
+            metalEngine = MetalEngine_Gaussian() // poor
         case 3: // Demo 3
-            metalEngine = MetalEngine_ImageBlend()
+            metalEngine = MetalEngine_ImageBlend() // great
         case 4: // Demo 4
-            metalEngine = MetalEngine_ColorBlindnessSimulator()
+            metalEngine = MetalEngine_ColorBlindnessSimulator() // great
         case 5: // Demo 5
-            metalEngine = MetalEngine_Animated()
+            metalEngine = MetalEngine_Animated() // great
         default:
             fatalError("Pick a demo to run")
         }
