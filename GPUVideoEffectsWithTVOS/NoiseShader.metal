@@ -15,8 +15,7 @@ using namespace metal;
 kernel void AddNoise(texture2d<float, access::read> inTexture [[texture(0)]],
                         texture2d<float, access::read> noiseTexture [[texture(1)]],
                         texture2d<float, access::write> outTexture [[texture(2)]],
-                        uint2 gid [[thread_position_in_grid]])
-{
+                        uint2 gid [[thread_position_in_grid]]) {
     float4 inColor = inTexture.read(gid);
     float4 noiseColor = noiseTexture.read(gid);
     float4 combinedColor = inColor + noiseColor;

@@ -20,8 +20,7 @@ import AVFoundation
  Note: AVSampleBufferDisplayLayer is currently prohibited in tvOS,
  modify your Xcode so that you remove this restriction.
  */
-class SampleBufferDisplayLayerView : UIView
-{
+class SampleBufferDisplayLayerView : UIView {
     
     // MARK:- Properties
     
@@ -32,8 +31,7 @@ class SampleBufferDisplayLayerView : UIView
     Force the layer to return a AVSampleBufferDisplayLayer
      */
     #if !(arch(i386) || arch(x86_64)) && os(tvOS)
-    override class var layerClass:AnyClass
-    {
+    override class var layerClass:AnyClass {
         return AVSampleBufferDisplayLayer.self
     }
     #endif
@@ -42,8 +40,7 @@ class SampleBufferDisplayLayerView : UIView
     Convenience property to access the layer cast as AVSampleBufferDisplayLayer
     */
     #if !(arch(i386) || arch(x86_64)) && os(tvOS)
-    private var videoLayer: AVSampleBufferDisplayLayer
-    {
+    private var videoLayer: AVSampleBufferDisplayLayer {
         return layer as! AVSampleBufferDisplayLayer
     }
     #endif
@@ -51,19 +48,15 @@ class SampleBufferDisplayLayerView : UIView
     /**
     Enque the pixel buffer
      */
-    func displayPixelBuffer(pixelBuffer: CVPixelBuffer, atTime outputTime: CMTime)
-    {
+    func displayPixelBuffer(pixelBuffer: CVPixelBuffer, atTime outputTime: CMTime) {
         var err: OSStatus = noErr
         
-        if videoInfo == nil || false == CMVideoFormatDescriptionMatchesImageBuffer(videoInfo!, pixelBuffer)
-        {
-            if videoInfo != nil
-            {
+        if videoInfo == nil || false == CMVideoFormatDescriptionMatchesImageBuffer(videoInfo!, pixelBuffer) {
+            if videoInfo != nil {
                 videoInfo = nil
             }
             err = CMVideoFormatDescriptionCreateForImageBuffer(nil, pixelBuffer, &videoInfo)
-            if (err != noErr)
-            {
+            if (err != noErr) {
                 print("Error at CMVideoFormatDescriptionCreateForImageBuffer \(err)")
             }
         }
@@ -71,8 +64,7 @@ class SampleBufferDisplayLayerView : UIView
         var sampleTimingInfo = CMSampleTimingInfo(duration: kCMTimeInvalid, presentationTimeStamp: outputTime, decodeTimeStamp: kCMTimeInvalid)
         var sampleBuffer: CMSampleBuffer?
         err = CMSampleBufferCreateForImageBuffer(nil, pixelBuffer, true, nil, nil, videoInfo!, &sampleTimingInfo, &sampleBuffer)
-        if (err != noErr)
-        {
+        if (err != noErr) {
             print("Error at CMSampleBufferCreateForImageBuffer \(err)")
         }
         
@@ -86,8 +78,7 @@ class SampleBufferDisplayLayerView : UIView
     /**
     Clear all enqueued frames, useful for when restarting a video
     */
-    func flush()
-    {
+    func flush() {
         #if !(arch(i386) || arch(x86_64)) && os(tvOS)
         videoLayer.flush()
         #endif

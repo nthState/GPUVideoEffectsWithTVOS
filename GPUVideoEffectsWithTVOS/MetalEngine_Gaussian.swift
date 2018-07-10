@@ -20,8 +20,7 @@ import Metal
 /**
  Runs a texture, backed by a pixel buffer through a MPS Shader
  */
-class MetalEngine_Gaussian : MetalEngineProtocol
-{
+class MetalEngine_Gaussian : MetalEngineProtocol {
     // MARK:- Properties
     
     /// Metal function we are using
@@ -41,20 +40,17 @@ class MetalEngine_Gaussian : MetalEngineProtocol
     /// Generated texture for blur values
     var blurWeightTexture:MTLTexture!
     
-    init()
-    {
+    init() {
         device = MTLCreateSystemDefaultDevice()
         defaultLibrary = device!.newDefaultLibrary()!
         commandQueue = device!.makeCommandQueue()
         
         kernelFunction = defaultLibrary.makeFunction(name: "gaussian_blur_2d")
         
-        do
-        {
+        do {
             pipelineState = try device!.makeComputePipelineState(function: kernelFunction!)
         }
-        catch
-        {
+        catch {
             fatalError("Unable to create pipeline state")
         }
         
@@ -68,8 +64,7 @@ class MetalEngine_Gaussian : MetalEngineProtocol
     }
     
     // FIXME:- This gaussian method seems very slow when used at speed, I'd recommend MPS instead
-    func apply( newTex:inout MTLTexture?)
-    {
+    func apply( newTex:inout MTLTexture?) {
         #if !(arch(i386) || arch(x86_64)) && os(tvOS)
         let commandBuffer = commandQueue.makeCommandBuffer()
         let commandEncoder = commandBuffer.makeComputeCommandEncoder()
@@ -87,15 +82,13 @@ class MetalEngine_Gaussian : MetalEngineProtocol
     /**
      Generate a blur texture
     */
-    func generateBlurWeightTexture(radius:Float)
-    {
+    func generateBlurWeightTexture(radius:Float) {
         let sigma:Float = radius / 2.0
         let size:Int = Int(roundf(radius * 2) + 1)
         
         var delta:Float = 0
         var expScale:Float = 0
-        if radius > 0
-        {
+        if radius > 0 {
             delta = (radius * 2) / (Float(size) - 1)
             expScale = -1 / (2 * sigma * sigma)
         }
@@ -105,12 +98,10 @@ class MetalEngine_Gaussian : MetalEngineProtocol
         
         var weightSum:Float = 0;
         var y:Float = -radius;
-        for j in 0 ..< (size + 1)
-        {
+        for j in 0 ..< (size + 1) {
             y += delta
             var x:Float = -radius;
-            for i in 0 ..< (size + 1)
-            {
+            for i in 0 ..< (size + 1) {
                 x += delta
                 let weight:Float = expf((x * x + y * y) * expScale);
                 weights[j * size + i] = weight;
@@ -119,10 +110,8 @@ class MetalEngine_Gaussian : MetalEngineProtocol
         }
         
         let weightScale:Float = 1 / weightSum;
-        for j in 0 ..< (size + 1)
-        {
-            for i in 0 ..< (size + 1)
-            {
+        for j in 0 ..< (size + 1) {
+            for i in 0 ..< (size + 1) {
                 weights[j * size + i] *= weightScale;
             }
         }

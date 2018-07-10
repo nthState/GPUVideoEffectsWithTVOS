@@ -21,8 +21,7 @@ import Metal
 /**
  Runs a texture, backed by a pixel buffer through a MPS Shader
  */
-class MetalEngine_ColorBlindnessSimulator : MetalEngineProtocol
-{
+class MetalEngine_ColorBlindnessSimulator : MetalEngineProtocol {
     // MARK:- Properties
     
     /// Metal function we are using
@@ -42,20 +41,17 @@ class MetalEngine_ColorBlindnessSimulator : MetalEngineProtocol
     /// Noise texture
     var noiseTexture: MTLTexture?
     
-    init()
-    {
+    init() {
         device = MTLCreateSystemDefaultDevice()
         defaultLibrary = device!.newDefaultLibrary()!
         commandQueue = device!.makeCommandQueue()
         
         kernelFunction = defaultLibrary.makeFunction(name: "protanope")
         
-        do
-        {
+        do {
             pipelineState = try device!.makeComputePipelineState(function: kernelFunction!)
         }
-        catch
-        {
+        catch {
             fatalError("Unable to create pipeline state")
         }
         
@@ -70,14 +66,12 @@ class MetalEngine_ColorBlindnessSimulator : MetalEngineProtocol
     /**
      Load Noise texture, so we can blend it later
      */
-    func loadNoiseTexture()
-    {
+    func loadNoiseTexture() {
         let a = UIImage(named: "noise")!
         noiseTexture = a.textureFromImage(device: device)
     }
     
-    func apply( newTex:inout MTLTexture?)
-    {
+    func apply( newTex:inout MTLTexture?) {
         #if !(arch(i386) || arch(x86_64)) && os(tvOS)
             let commandBuffer = commandQueue.makeCommandBuffer()
             let commandEncoder = commandBuffer.makeComputeCommandEncoder()

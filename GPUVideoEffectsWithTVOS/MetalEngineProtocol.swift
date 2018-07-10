@@ -22,8 +22,7 @@ import Metal
  for the demo, so we simply have a protocol to easily switch
  between implementations
  */
-protocol MetalEngineProtocol
-{
+protocol MetalEngineProtocol {
     /**
      Take a MTLTexture and process it
     */

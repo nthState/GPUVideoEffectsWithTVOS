@@ -14,8 +14,7 @@ using namespace metal;
 kernel void gaussian_blur_2d(texture2d<float, access::read> inTexture [[texture(0)]],
                              texture2d<float, access::read> weights [[texture(1)]],
                              texture2d<float, access::write> outTexture [[texture(2)]],
-                             uint2 gid [[thread_position_in_grid]])
-{
+                             uint2 gid [[thread_position_in_grid]]) {
     int size = weights.get_width();
     int radius = size / 2;
     

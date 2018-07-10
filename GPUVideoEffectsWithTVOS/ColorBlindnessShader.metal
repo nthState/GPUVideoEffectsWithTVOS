@@ -12,8 +12,7 @@ using namespace metal;
 
 kernel void protanope(texture2d<float, access::read> inTexture [[texture(0)]],
                       texture2d<float, access::write> outTexture [[texture(1)]],
-                      uint2 gid [[thread_position_in_grid]])
-{
+                      uint2 gid [[thread_position_in_grid]]) {
     float3x3 protanope = {{ 0.567,0.433,0,},
         { 0.558,0.442,0},
         { 0,0.242,0.758}};
@@ -27,8 +26,7 @@ kernel void protanope(texture2d<float, access::read> inTexture [[texture(0)]],
 
 kernel void deuteranope(texture2d<float, access::read> inTexture [[texture(0)]],
                         texture2d<float, access::write> outTexture [[texture(1)]],
-                        uint2 gid [[thread_position_in_grid]])
-{
+                        uint2 gid [[thread_position_in_grid]]) {
     
     float3x3 deuteranope = {{ 0.625,0.375,0,},
         { 0.7,0.3,0},
@@ -43,8 +41,7 @@ kernel void deuteranope(texture2d<float, access::read> inTexture [[texture(0)]],
 
 kernel void tritanopia(texture2d<float, access::read> inTexture [[texture(0)]],
                        texture2d<float, access::write> outTexture [[texture(1)]],
-                       uint2 gid [[thread_position_in_grid]])
-{
+                       uint2 gid [[thread_position_in_grid]]) {
     
     float3x3 tritanopia = {{ 0.95,0.05,0,},
         { 0,0.433,0.567},

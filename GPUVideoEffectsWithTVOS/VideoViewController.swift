@@ -21,8 +21,7 @@ import Metal
 /**
  Handles the rendering of a video through Metal Performance Shaders
  */
-class VideoViewController: UIViewController, AVPlayerItemOutputPullDelegate
-{
+class VideoViewController: UIViewController, AVPlayerItemOutputPullDelegate {
 
     // MARK:- Properties
     
@@ -61,8 +60,7 @@ class VideoViewController: UIViewController, AVPlayerItemOutputPullDelegate
         super.viewDidLoad()
         
         // Which demo do you want to run?
-        switch demo
-        {
+        switch demo {
         case 1: // Demo 1
             metalEngine = MetalEngine_MPS() // great
         case 2: // Demo 2
@@ -86,10 +84,8 @@ class VideoViewController: UIViewController, AVPlayerItemOutputPullDelegate
     /**
      Configure a metal device so we can create a texture cache
     */
-    func setupMetal()
-    {
-        guard let device = MTLCreateSystemDefaultDevice() else
-        {
+    func setupMetal() {
+        guard let device = MTLCreateSystemDefaultDevice() else {
             return
         }
         
@@ -106,8 +102,7 @@ class VideoViewController: UIViewController, AVPlayerItemOutputPullDelegate
     /**
      Load the video
     */
-    func loadVideo()
-    {
+    func loadVideo() {
         self.displayLink = CADisplayLink(target: self, selector: #selector(VideoViewController.displayLinkDidFire(displayLink:)))
         if #available(tvOS 10.0, *) {
             self.displayLink?.preferredFramesPerSecond = 60
@@ -149,8 +144,7 @@ class VideoViewController: UIViewController, AVPlayerItemOutputPullDelegate
      Buffers data is changed
      Buffer is rendered to a AVSampleBufferDisplayLayer
      */
-    func displayLinkDidFire(displayLink:CADisplayLink)
-    {
+    func displayLinkDidFire(displayLink:CADisplayLink) {
         var outputItemTime:CMTime = kCMTimeInvalid
         
         // Calculate the nextVsync time which is when the screen will be refreshed next.
@@ -158,10 +152,8 @@ class VideoViewController: UIViewController, AVPlayerItemOutputPullDelegate
         
         outputItemTime = self.videoOutput.itemTime(forHostTime: nextVSync)
         
-        if self.videoOutput.hasNewPixelBuffer(forItemTime: outputItemTime)
-        {
-            if let pixelBuffer = self.videoOutput.copyPixelBuffer(forItemTime: outputItemTime, itemTimeForDisplay: nil)
-            {
+        if self.videoOutput.hasNewPixelBuffer(forItemTime: outputItemTime) {
+            if let pixelBuffer = self.videoOutput.copyPixelBuffer(forItemTime: outputItemTime, itemTimeForDisplay: nil) {
                 #if !(arch(i386) || arch(x86_64)) && os(tvOS)
                 var tex:CVMetalTexture?
                 let w = CVPixelBufferGetWidthOfPlane(pixelBuffer, 0);

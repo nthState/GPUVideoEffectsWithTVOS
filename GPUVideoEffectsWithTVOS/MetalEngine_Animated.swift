@@ -20,8 +20,7 @@ import Metal
 /**
  Runs a texture, backed by a pixel buffer through a MPS Shader
  */
-class MetalEngine_Animated : MetalEngineProtocol
-{
+class MetalEngine_Animated : MetalEngineProtocol {
     // MARK:- Properties
     
     /// Metal function we are using
@@ -45,20 +44,17 @@ class MetalEngine_Animated : MetalEngineProtocol
     var blur: MPSImageGaussianBlur!
     #endif
     
-    init()
-    {
+    init() {
         device = MTLCreateSystemDefaultDevice()
         defaultLibrary = device!.newDefaultLibrary()!
         commandQueue = device!.makeCommandQueue()
         
         kernelFunction = defaultLibrary.makeFunction(name: "PassThrough")
         
-        do
-        {
+        do {
             pipelineState = try device!.makeComputePipelineState(function: kernelFunction!)
         }
-        catch
-        {
+        catch {
             fatalError("Unable to create pipeline state")
         }
         
@@ -77,22 +73,19 @@ class MetalEngine_Animated : MetalEngineProtocol
     */
     @objc func timerFired(timer: Timer) {
         currentSigma += 0.5
-        if currentSigma > 50
-        {
+        if currentSigma > 50 {
             currentSigma = 0
         }
         setBlurSigma(sigma: currentSigma)
     }
     
-    func setBlurSigma(sigma: Float)
-    {
+    func setBlurSigma(sigma: Float) {
         #if !(arch(i386) || arch(x86_64)) && os(tvOS)
             blur = MPSImageGaussianBlur(device: device!, sigma: sigma)
         #endif
     }
     
-    func apply(newTex:inout MTLTexture?)
-    {
+    func apply(newTex:inout MTLTexture?) {
         #if !(arch(i386) || arch(x86_64)) && os(tvOS)
             let commandBuffer = commandQueue.makeCommandBuffer()
             let commandEncoder = commandBuffer.makeComputeCommandEncoder()

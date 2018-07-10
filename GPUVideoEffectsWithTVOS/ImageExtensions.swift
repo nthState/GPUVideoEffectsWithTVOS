@@ -18,8 +18,7 @@ import Metal
 
 // MARK:- Extension
 
-extension UIImage
-{
+extension UIImage {
     /**
      Creates a Metal Texture from a UIImage
      

@@ -15,7 +15,6 @@ using namespace metal;
  */
 kernel void PassThrough(texture2d<float, access::read> inTexture [[texture(0)]],
                         texture2d<float, access::write> outTexture [[texture(1)]],
-                        uint2 gid [[thread_position_in_grid]])
-{
+                        uint2 gid [[thread_position_in_grid]]) {
     outTexture.write(inTexture.read(gid), gid);
 }
